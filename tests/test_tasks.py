@@ -1,6 +1,10 @@
+"""
+Please turn on your worker or the tests will fail.
+"""
 import pytest
 import time
 from app.models.webpages import Webpage
+
 
 @pytest.mark.usefixtures('setup')
 class TestTasks:
@@ -22,9 +26,15 @@ class TestTasks:
         r = self.client.post('/index', data={'url': url})
         assert r.status == '302 FOUND'
 
+    def test_count_words(self, user_fixture):
+        url = 'https://google.com'
+        r = self.client.post('/index', data={'url': url})
+        time.sleep(3)
+        webpage = Webpage.query.get(2)
+        assert webpage.words == 142
+
     # Disabling these tests since post request is always redirected
-    # to index. Enabling these tests will require that the worker is
-    # on.
+    # to index.
 
     # def test_get_queue_job_bad_url(self, user_fixture):
     #     url = 'google.com'
@@ -39,9 +49,3 @@ class TestTasks:
     #     r = self.client.post('/index', data={'url': url})
     #     assert r.status == '400 BAD REQUEST'
 
-    def test_count_words(self, user_fixture):
-        url = 'https://google.com'
-        r = self.client.post('/index', data={'url': url})
-        time.sleep(3)
-        webpage = Webpage.query.get(2)
-        assert webpage.words == 142
