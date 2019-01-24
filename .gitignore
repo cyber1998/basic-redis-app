@@ -1,0 +1,8 @@
+# Directories
+__pycache__/
+.idea
+logs
+
+
+# Files
+db_uri.py
