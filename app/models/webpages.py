@@ -1,6 +1,10 @@
+import logging
+
 from sqlalchemy.exc import ProgrammingError
 
 from app.models import db, BaseModel
+
+logger = logging.getLogger(__name__)
 
 
 # Inheriting the BaseModel
@@ -12,13 +16,14 @@ class Webpage(BaseModel):
     title = db.Column(db.String(150))
 
     def __init__(self, payload):
-
         try:
             for key, value in payload.items():
                 setattr(self, key, value)
         except ProgrammingError as e:
             db.rollback()
             raise ProgrammingError
+
+        logger.info('Data has been added to the database')
 
     def get_details(self):
         data = {

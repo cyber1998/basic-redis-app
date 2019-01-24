@@ -5,4 +5,4 @@ logs
 
 
 # Files
-db_uri.py
+app/configs/db_uri.py

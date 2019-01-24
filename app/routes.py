@@ -1,4 +1,6 @@
+import logging
 import time
+
 from flask import (
     request,
     render_template,
@@ -11,6 +13,8 @@ from flask import (
 from app import queue
 from app.models.webpages import Webpage
 from app.tasks import count_words_at_url
+
+logger = logging.getLogger(__name__)
 
 generic_blueprint = Blueprint(
     'generic',
@@ -30,13 +34,18 @@ def index():
         url = request.form.get('url')
         data = dict()
         data['url'] = url
+        logger.info('Queing new job')
+
+        # Queue a job
         job = queue.enqueue(count_words_at_url, data)
+        logger.info('Job id: {} has been queued'.format(job.get_id()))
         time.sleep(2)
 
-        # For demo purposes we use
         if job.result is True:
+            logger.info('Job successful')
             flash('Here are your results')
-            return redirect(url_for('generic.index'))
+            return redirect(url_for('generic.index'), code=201)
         flash('Bad url format. Please provide the full URL.'
               ' Example: http://google.com')
-        return redirect(url_for('generic.index'))
+        logger.error('Job unsuccessful')
+        return redirect(url_for('generic.index'), code=400)

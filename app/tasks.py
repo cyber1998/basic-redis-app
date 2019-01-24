@@ -1,9 +1,13 @@
+import logging
+
 import bs4
 import requests
 from flask.cli import with_appcontext
 
 from app.models import db
 from app.models.webpages import Webpage
+
+logger = logging.getLogger(__name__)
 
 
 @with_appcontext
@@ -14,7 +18,7 @@ def count_words_at_url(data):
 
     :param dict data: Contains the url of the site.
     """
-
+    logger.info('Making a request to the URL...')
     resp = requests.get(data['url'])
 
     crawled = bs4.BeautifulSoup(resp.content)
@@ -26,6 +30,8 @@ def count_words_at_url(data):
     try:
         webpage = Webpage(data)
     except requests.exceptions.MissingSchema:
+        logger.error('Failed to fetch data...'
+                     'Please check the structure of the URL')
         return False
     db.session.add(webpage)
     db.session.commit()

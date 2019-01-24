@@ -11,6 +11,7 @@ from app.models import db
 
 # Redis Queue stuff
 # Redis queue initialization
+
 redis_connection = Redis()
 queue = Queue('default', connection=redis_connection)
 
@@ -41,6 +42,8 @@ def create_app(config_module='app.configs.config'):
     db.init_app(app)
 
     from app.utilities import rebuild
+
+    # Add the commands to the flask cli
     app.cli.add_command(rebuild)
     app.cli.add_command(edyst_worker)
 
