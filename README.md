@@ -31,6 +31,8 @@ WARNING: This function drops all tables and creates them again, so you WILL lose
 4. Go to `localhost:5000/index` and paste a link in the text box.
 5. Hit submit and see the results appearing in a while!
 
+INFO: If you want to view your queued jobs, open a terminal and type `rq-dashboard`. Go to the link (usually `http://0.0.0.0:9181/` printed in the terminal to have a look at your job queues.
+
 ## Running Tests
 
 Ensure your virtual environment is activated. Then:
