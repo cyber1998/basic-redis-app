@@ -13,17 +13,44 @@
             <input type="text" name="url"/>
             <input type="submit"/>
         </form>
+        {% if jobs_in_queue %}
+
+        <h1> Jobs still in queue </h1>
+
+            <table border="1px solid">
+                <tr>
+                    <th> URL </th>
+                    <th> Job ID </th>
+                    <th> Job Status </th>
+                </tr>
+        {% for job in jobs_in_queue %}
+                <tr>
+                    <td> <a href = "{{job.args[0].url}}">{{job.args[0].url}}</a> </td>
+                    <td> {{job.get_id()}} </td>
+                    <td> {{job.get_status()}} </td>
+                </tr>
+        {% endfor %}
+            </table>
+        {% endif %}
 
         {% if results %}
 
-        <h1> Results </h1>
-        <ol>
+        <h1> Processed Results </h1>
+             <table border="1px solid">
+                <tr>
+                    <th> URL </th>
+                    <th> Page Title </th>
+                    <th> Number of words </th>
+                </tr>
         {% for result in results %}
-
-            <li>URL - <a href = "{{result.url}}"> {{result.title}}</a>  Word count - {{result.words}} <br/> </li>
+                 <tr>
+                    <td> <a href = "{{result.url}}">{{result.url}}</a></td>
+                    <td> {{result.title}} </td>
+                    <td> {{result.words}} </td>
+                </tr>
 
         {% endfor %}
-        </ol>
+             </table>
         {% endif %}
     </div>
 </body>
