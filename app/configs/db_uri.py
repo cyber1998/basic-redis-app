@@ -1,2 +1,4 @@
+# Example URI for a database called edyst in your localmachine
 
-SQLALCHEMY_DATABASE_URI = 'postgres://cyber:123cyber@localhost/edyst'
+SQLALCHEMY_DATABASE_URI = 'postgresql://cyber:123cyber@localhost/edyst'
+
