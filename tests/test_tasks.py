@@ -19,7 +19,7 @@ class TestTasks:
     def test_get_queue_job_success(self, user_fixture):
         url = 'https://google.com'
         r = self.client.post('/index', data={'url': url})
-        assert r.status == '201 CREATED'
+        assert r.status == '302 FOUND'
 
     def test_get_queue_job_bad_url(self, user_fixture):
         url = 'google.com'

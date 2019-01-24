@@ -1,0 +1,9 @@
+body {
+    background-color: #ff6347;
+    font-family: 'Open Sans', sans-serif;
+    display:flex;
+    color: white;
+}
+.url-form {
+	margin:auto;
+}

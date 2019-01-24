@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Edyst</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
 </head>
 <body>
-    <h1> Enter an URL </h1>
-    <form action="/index" method="POST">
-        <input type="text" name="url"/>
-        <input type="submit"/>
-    </form>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <h4 style="color: green;">{{ message }}</h4> <br/>
-            {% endfor %}
-         {% endif %}
-    {% endwith %}
+    <div class="url-form">
+        <h1> Enter an URL </h1>
+        <form action="/index" method="POST">
+            <input type="text" name="url"/>
+            <input type="submit"/>
+        </form>
 
-    {% if results %}
-    {% for result in results %}
-    URL - <a href = "{{result.url}}"> {{result.title}}</a> <br/>
-    Word count - {{result.words}} <br/>
-    {% endfor %}
-    {% endif %}
+        {% if results %}
 
+        <h1> Results </h1>
+        <ol>
+        {% for result in results %}
+
+            <li>URL - <a href = "{{result.url}}"> {{result.title}}</a>  Word count - {{result.words}} <br/> </li>
+
+        {% endfor %}
+        </ol>
+        {% endif %}
+    </div>
 </body>
 </html>

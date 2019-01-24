@@ -7,7 +7,7 @@ from flask import (
     Blueprint,
     redirect,
     url_for,
-    flash
+    abort
 )
 
 from app import queue
@@ -19,7 +19,8 @@ logger = logging.getLogger(__name__)
 generic_blueprint = Blueprint(
     'generic',
     __name__,
-    template_folder='templates'
+    template_folder='templates',
+    static_url_path='../static'
 )
 
 
@@ -34,18 +35,20 @@ def index():
         url = request.form.get('url')
         data = dict()
         data['url'] = url
-        logger.info('Queing new job')
+        logger.info('Queing new job with url: {}'.format(url))
 
         # Queue a job
-        job = queue.enqueue(count_words_at_url, data)
+        job = queue.enqueue(count_words_at_url, data,)
         logger.info('Job id: {} has been queued'.format(job.get_id()))
-        time.sleep(2)
+
+        # Not waiting would result in the job getting queued and
+        # successfully but committed to the database but the job result
+        # will be a None type
+
+        time.sleep(3)
 
         if job.result is True:
             logger.info('Job successful')
-            flash('Here are your results')
-            return redirect(url_for('generic.index'), code=201)
-        flash('Bad url format. Please provide the full URL.'
-              ' Example: http://google.com')
+            return redirect(url_for('generic.index'), code=302)
         logger.error('Job unsuccessful')
-        return redirect(url_for('generic.index'), code=400)
+        abort(400)

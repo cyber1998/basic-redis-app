@@ -33,6 +33,15 @@ def count_words_at_url(data):
         logger.error('Failed to fetch data...'
                      'Please check the structure of the URL')
         return False
+    except requests.exceptions.InvalidURL:
+        logger.error('Failed to fetch data...'
+                     'Please check the structure of the URL')
+        return False
+    except requests.exceptions.InvalidSchema:
+        logger.error('Failed to fetch data...'
+                     'Please check the structure of the URL')
+        return False
+
     db.session.add(webpage)
     db.session.commit()
 

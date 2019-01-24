@@ -21,5 +21,3 @@ def user_fixture(request):
     client = app.test_client()
     request.cls.client = client
 
-    yield
-    test_rebuild()
